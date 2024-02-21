@@ -27,8 +27,6 @@ interface WalletSummary {
   totalSellAmounts: Date
 }
 
-
-
 export default function Home() {
   const [sortBy, setSortBy] = useState<'month' | 'week' | 'year'>('month')
 
@@ -37,7 +35,6 @@ export default function Home() {
     const totalBuySellTimes: Date = summary.totalBuySellTimes
     const totalBuyAmounts: Date = summary.totalBuyAmounts
     const totalSellAmounts: Date = summary.totalSellAmounts
-
     return Object.keys(totalBuySellTimes[sortBy]).map((item: string, index) => {
       return {
         name: index,
@@ -47,6 +44,7 @@ export default function Home() {
       }
     })
   }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 md:px-8 xl:px-10 py-44 bg-slate-950">
       <div className="flex flex-col items-start gap-10 justify-center p-7 pt-10 border border-slate-900 bg-slate-900/50 rounded-xl w-full max-w-4xl h-[500px]">
@@ -63,17 +61,15 @@ export default function Home() {
             <YAxis yAxisId="right" orientation="right" dataKey="totalBuySellTimes" />
             <Tooltip />
             <Legend />
-
             <Bar stackId="a" dataKey="totalBuyAmounts" yAxisId="left" barSize={20}>
               {
-                converteWallet().map((entry, index) => (
+                converteWallet().map((_, index) => (
                   <Cell
+                    key={index}
                     fill={converteWallet()[index].totalBuyAmounts > converteWallet()[index].totalSellAmounts ? '#3ea065' : '#b31328'} />
                 ))
               }
             </Bar>
-
-
             <Bar dataKey="totalSellAmounts" yAxisId="left" stackId="a" fill="#454d8b" barSize={20} />
             <Line yAxisId="right" type="monotone" dataKey="totalBuySellTimes" stroke="#ff7300" />
           </ComposedChart>

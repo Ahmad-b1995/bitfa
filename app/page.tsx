@@ -30,7 +30,7 @@ interface WalletSummary {
 export default function Home() {
   const [sortBy, setSortBy] = useState<'month' | 'week' | 'year'>('month')
 
-  const converteWallet = (): any[] => {
+  const converteWallet = (sortBy: 'month' | 'week' | 'year'): any[] => {
     const summary: WalletSummary = walletSummary;
     const totalBuySellTimes: Date = summary.totalBuySellTimes
     const totalBuyAmounts: Date = summary.totalBuyAmounts
@@ -54,7 +54,7 @@ export default function Home() {
           <option value="year">year</option>
         </select>
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart width={500} height={500} data={converteWallet()} >
+          <ComposedChart width={500} height={500} data={converteWallet(sortBy)} >
             <CartesianGrid stroke="#e4e4e4b4" strokeDasharray="5 5" />
             <XAxis dataKey="name" scale="band" />
             <YAxis yAxisId="left" />
@@ -63,10 +63,10 @@ export default function Home() {
             <Legend />
             <Bar stackId="a" dataKey="totalBuyAmounts" yAxisId="left" barSize={20}>
               {
-                converteWallet().map((_, index) => (
+                converteWallet(sortBy).map((_, index) => (
                   <Cell
                     key={index}
-                    fill={converteWallet()[index].totalBuyAmounts > converteWallet()[index].totalSellAmounts ? '#3ea065' : '#b31328'} />
+                    fill={converteWallet(sortBy)[index].totalBuyAmounts > converteWallet(sortBy)[index].totalSellAmounts ? '#3ea065' : '#b31328'} />
                 ))
               }
             </Bar>
